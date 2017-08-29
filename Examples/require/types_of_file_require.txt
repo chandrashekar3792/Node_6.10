@@ -1,0 +1,15 @@
+we Can require only three types of extension
+>require.extensions
+.js
+.json
+.node (compiled c++ code or addon)
+
+ >require.extensions['.js'].toString()
+Ans: 'function (module, filename) {\n  var content = fs.readFileSync(filename, \'utf8\');\n  module._compile(internalModule.stripBOM(content), filename);\n}'
+
+> require.extensions['.json'].toString()
+Ans:'function (module, filename) {\n  var content = fs.readFileSync(filename, \'utf8\');\n  try {\n    module.exports = JSON.parse(internalModule.stripBOM(content));\n  } catch (err) {\n    err.message = filename + \': \' + err.message;\n    throw err;\n  }\n}'
+*/
+
+> require.extensions['.node'].toString()
+Ans:'function (module, filename) {\n  return process.dlopen(module, path._makeLong(filename));\n}'
